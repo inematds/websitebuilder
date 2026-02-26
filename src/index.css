@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ─────────────────────────────── */
+:root {
+  --bg:              #0c0c10;
+  --surface:         #16161c;
+  --surface-raised:  #1e1e26;
+  --surface-hover:   #25252f;
+  --border:          #32323e;
+  --border-hover:    #44445a;
+  --border-focus:    #8b6cff;
+  --accent:          #8b6cff;
+  --accent-soft:     rgba(139, 108, 255, 0.15);
+  --accent-glow:     rgba(139, 108, 255, 0.30);
+  --text:            #f2f2f5;
+  --text-muted:      #b8b8c4;
+  --text-dim:        #84849a;
+  --input-bg:        #111116;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #4a4a5a; border-radius: 999px; }
+
+/* ── Shimmer (title gradient) ───────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #8b6cff, #c084fc, #f472b6, #fb923c, #c084fc, #8b6cff
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Rainbow Border (@property) ────────────────────────── */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate-angle {
+  to { --angle: 360deg; }
+}
+
+.rainbow-border {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    conic-gradient(
+      from var(--angle),
+      #8b6cff, #c084fc, #f472b6, #fb923c, #facc15,
+      #4ade80, #22d3ee, #818cf8, #8b6cff
+    ) border-box;
+  animation: rotate-angle 4s linear infinite;
+}
+
+.rainbow-border-white {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    conic-gradient(
+      from var(--angle),
+      #8b6cff, #c084fc, #f472b6, #fb923c, #facc15,
+      #4ade80, #22d3ee, #818cf8, #8b6cff
+    ) border-box;
+  animation: rotate-angle 4s linear infinite;
+}
+
+/* ── Rainbow Strip (2px line) ───────────────────────────── */
+@keyframes rainbow-move {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.rainbow-strip {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #8b6cff, #c084fc, #f472b6, #fb923c, #facc15,
+    #4ade80, #22d3ee, #818cf8, #c084fc, #f472b6,
+    #fb923c, #facc15, #8b6cff
+  );
+  background-size: 200% 100%;
+  animation: rainbow-move 4s linear infinite;
+}
+
+/* ── Input Glow ─────────────────────────────────────────── */
+.input-glow {
+  background-color: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9375rem;
+  resize: none;
+  outline: none;
+}
+
+.input-glow::placeholder { color: var(--text-dim); }
+
+.input-glow:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 0 20px var(--accent-glow);
+}
+
+/* ── Pulse dot ──────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── Drag handle cursor ─────────────────────────────────── */
+.drag-item { cursor: grab; user-select: none; }
+.drag-item:active { cursor: grabbing; }
+
+/* ── Section available button ───────────────────────────── */
+.section-available {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.section-available:hover {
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+  color: var(--text);
+}
